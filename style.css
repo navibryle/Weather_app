@@ -1,0 +1,18 @@
+.center{
+    text-align: center;
+}
+#input-box{
+    width:20vw;
+    height: 3vh;
+    font-size: large;
+    margin-top: 30px;
+    text-align: center;
+}
+#contact-info{
+    position: relative;
+    top:70vh;
+    font-size: xx-large;
+}
+#title{
+    font-size: 3em;
+}
