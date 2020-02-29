@@ -25,3 +25,8 @@
     margin-top: -15%;
     margin-bottom: -20%;
 }
+#table{
+    border-color: black;
+    border: black;
+    border-width: 2em;
+}
