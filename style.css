@@ -16,3 +16,12 @@
 #title{
     font-size: 3em;
 }
+#img-wrap{
+    width:100vw;
+    overflow: hidden;
+}
+#header-pic{
+    width: 100vw;
+    margin-top: -15%;
+    margin-bottom: -20%;
+}

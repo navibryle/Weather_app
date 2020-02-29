@@ -3,11 +3,19 @@
     <head>
         <link rel="stylesheet" href="style.css" type="text/css">
         <meta charset="utf-8">
+        <script type="text/javascript" src="script.js"></script>
     </head>
+    <div id = "img-wrap">
+        <img id="header-pic" src="mountain.jpg" alt="picture of a mountain"/>
+    </div>
+    
     <title>Weather app</title>
     <div class = "center" id = "title">Weather stats</div>
     <div class = "center" >
         <input  id = "input-box" placeholder="Enter city name"/>
+        <button onclick="clicked()" id = "submit-button" type = "submit">submit</button>
     </div>
+    <div id = "table-title"></div>
+    <div id = "table"></div>
     <p class = "center" id="contact-info">Ivan Penales<br/>ipenales@ualberta<br/>https://github.com/navibryle</p>
 </html>
