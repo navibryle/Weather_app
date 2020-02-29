@@ -15,20 +15,21 @@
         <input  id = "input-box" placeholder="Enter city name"/>
         <button onclick="clicked()" id = "submit-button" type = "submit">submit</button>
     </div>
-    <div id = "table-title"></div>
-    <div id = "table">
-        <tr>
-            <th>City</th>
-            <th>temperature in kelvin</th>
-            <th>What it feels like</th>
-            <th>Minimum temperature</th>
-            <th>Maximum temperature</th>
-            <th>Pressure</th>
-            <th>Humidity</th>
-            <th>Visibility</th>
-            <th>Forecast</th>
-            <th>Description</th>
-        </tr>
-    </div>
+    <table class = "center" id = "table">
+        <tbody id = "table-body">
+            <tr id = "header">
+                <th>CITY</th>
+                <th>TEMPERATURE &#8451</th>
+                <th>FEELS LIKE &#8451</th>
+                <th>MINIMUM TEMPERATURE &#8451</th>
+                <th>MAXIMUM TEMPERATURE &#8451</th>
+                <th>PRESSURE hPa</th>
+                <th>RELATIVE HUMIDITY</th>
+                <th>VISIBILITY m</th>
+                <th>CONDITION</th>
+                <th>DESCRIPTION</th>
+            </tr>
+        </tbody>
+    </table>
     <p class = "center" id="contact-info">Ivan Penales<br/>ipenales@ualberta<br/>https://github.com/navibryle</p>
 </html>
