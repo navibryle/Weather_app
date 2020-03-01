@@ -1,34 +1,23 @@
 <!DOCTYPE html>
 <html id="root">
     <head>
-        <link rel="stylesheet" href="style.css" type="text/css">
+        <link rel="stylesheet" href="css/style.css" type="text/css">
         <meta charset="utf-8">
-        <script type="text/javascript" src="script.js"></script>
+        <script type="text/javascript" src="js/script.js"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     </head>
-    <div id = "img-wrap">
-        <img id="header-pic" src="mountain.jpg" alt="picture of a mountain"/>
-    </div>
-    
+    <nav class="navbar navbar-dark bg-dark">
+        <a href = "signup.html">sign up</a>
+      </nav>
+      
     <title>Weather app</title>
     <div class = "center" id = "title">Weather stats</div>
     <div class = "center" >
         <input  id = "input-box" placeholder="Enter city name"/>
-        <button onclick="clicked()" id = "submit-button" type = "submit">submit</button>
+        <button onclick="clicked_city_query()" id = "submit-button" type = "submit" class="btn btn-dark">submit</button>
     </div>
     <table class = "center" id = "table">
         <tbody id = "table-body">
-            <tr id = "header">
-                <th>CITY</th>
-                <th>TEMPERATURE &#8451</th>
-                <th>FEELS LIKE &#8451</th>
-                <th>MINIMUM TEMPERATURE &#8451</th>
-                <th>MAXIMUM TEMPERATURE &#8451</th>
-                <th>PRESSURE hPa</th>
-                <th>RELATIVE HUMIDITY</th>
-                <th>VISIBILITY m</th>
-                <th>CONDITION</th>
-                <th>DESCRIPTION</th>
-            </tr>
         </tbody>
     </table>
     <p class = "center" id="contact-info">Ivan Penales<br/>ipenales@ualberta<br/>https://github.com/navibryle</p>
