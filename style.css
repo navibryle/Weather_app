@@ -1,0 +1,50 @@
+.center{
+    text-align: center;
+}
+#input-box{
+    width:20vw;
+    height: 40px;
+    font-size: x-large;
+    margin-top: 30px;
+    text-align: center;
+    position: relative;
+    top:4px;
+}
+#contact-info{
+    position: relative;
+    top:70vh;
+    font-size: xx-large;
+}
+#title{
+    font-size: 3em;
+}
+#img-wrap{
+    width:100vw;
+    overflow: hidden;
+}
+#header-pic{
+    width: 100vw;
+    margin-top: -15%;
+    margin-bottom: -20%;
+}
+table{
+    margin-left:auto; 
+    margin-right:auto;
+    border-collapse: collapse;
+    position: relative;
+    margin-top: 2vh;
+}
+td,th{
+    border: 1px solid;
+    padding:10px;
+}
+tr:nth-child(even){
+    background-color: #dddddd;
+}
+tr:hover:not(#header){
+    background-color: black;
+    color: white;
+}
+
+/*=========================signup page css==================*/
+/*=========================signup page css==================*/

@@ -22,25 +22,25 @@
     </style>
     <header>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-        <script type="text/javascript" src="js/script.js"></script>
+        <script type="text/javascript" src="script.js"></script>
     </header>
     <nav class="navbar navbar-dark bg-dark">
         <a href = "index.html">Home</a>
       </nav>
         <div class="container w-100 h-100">
             <div  class="row align-items-center h-100" >
-                <form class = "col-md-6" action="php/dbh.php" method="post">
+                <form class = "col-md-6" >
                     <div id = "warning-text"></div>
                     <div class="mx-sm-3 mb-2">
-                        <input type="username" class="form-control" name="username" placeholder="Username">
+                        <input type="username" class="form-control" id="username" placeholder="Username">
                         </div>
                     <div class="mx-sm-3 mb-2">
-                        <input type="password" class="form-control" name="password" placeholder="Password">
+                        <input type="password" class="form-control" id="password" placeholder="Password">
                     </div>
                     <div class="mx-sm-3 mb-2">
-                        <input type="password" class="form-control" name="confirmed-password" placeholder="Confirm Password">
+                        <input type="password" class="form-control" id="confirmed-password" placeholder="Confirm Password">
                     </div>
-                    <button onclick="clicked_signup()" type="button" class="btn btn-primary mb-2">Sign up</button>
+                    <button onclick="clicked_signup();" type="button" class="btn btn-primary mb-2">Sign up</button>
                 </form>
             </div>
     </div>
