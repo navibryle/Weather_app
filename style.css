@@ -45,6 +45,6 @@ tr:hover:not(#header){
     background-color: black;
     color: white;
 }
-
-/*=========================signup page css==================*/
-/*=========================signup page css==================*/
+.info{
+    color: white;
+}

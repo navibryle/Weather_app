@@ -57,6 +57,7 @@ function add_row(weather_json){
 
 function clicked_signup(){
     //This function will check input and if input is correct will call store_cred
+    
     let username = document.getElementById("username").value;
     let password = document.getElementById("password").value;
     let confirm_pass = document.getElementById("confirmed-password").value;
@@ -67,7 +68,6 @@ function clicked_signup(){
         document.getElementById("warning-text").innerHTML = "Password must match";
         return false;
     }else{
-        console.log(username);
         store_cred(username,password);
     }
 }
@@ -76,9 +76,50 @@ function store_cred(username,password){
     //this function will be an asynchronous ajax to store the username and password to the database
     let httpRequest = new XMLHttpRequest();
     httpRequest.onload = function(){
-        console.log(this.responseText);
+
+        if (httpRequest.responseText === `Succesfully registered ${username}`){
+            alert(httpRequest.responseText);
+            window.location.href = "index.html";
+        }else{
+            document.getElementById("warning-text").innerHTML = `The username ${username} is already in the database`;
         }
-    httpRequest.open('POST','http://127.0.1.1/php/proc_acc.php',false);
-    httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    httpRequest.send("REEEe");
+        
+    }
+    httpRequest.open('POST','http://127.0.1.1/php/proc_signup.php',true);
+    httpRequest.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    httpRequest.send(`username=${username}&password=${password}`);
+}
+
+function log_in(){
+    //This function will make an AJAX call to query the database and store the user in the cur_user table
+    let username = document.getElementById("log-username").value;
+    let password = document.getElementById("log-password").value;
+    let httpRequest = new XMLHttpRequest();
+    httpRequest.onload = function(){
+        if (httpRequest.responseText === "YES"){
+            window.location.href = `user.html?username=${username}`;
+        }else{
+            document.getElementById("log-stat").innerHTML = `Incorrect user and password combination`;
+        }    
+    }
+    httpRequest.open('POST','http://127.0.1.1/php/signin.php',false);
+    httpRequest.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    httpRequest.send(`username=${username}&password=${password}`);
+}
+function log_out(){
+    //This will logout the cur_user
+}
+
+function load_user(){
+    //query the database for all user data.
+    httpRequest.onload = function(){
+        if (httpRequest.responseText === "YES"){
+            window.location.href = `user.html?username=${username}`;
+        }else{
+            document.getElementById("log-stat").innerHTML = `Incorrect user and password combination`;
+        }    
+    }
+    httpRequest.open('GET','http://127.0.1.1/php/signin.php',false);
+    httpRequest.setRequestHeader('Content-type', 'application/json');
+    httpRequest.send();
 }
