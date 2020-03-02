@@ -1,7 +1,7 @@
 //==========================================================
 //this is an async request being made to OpenWeather api to request Data from the specified
 function fetch_json (city){
-    fetch("http://api.openweathermap.org/data/2.5/weather?q="+city+"&appid=249e80fba61f245e94d010e0f9955e10&units=metric").then(
+    fetch("https://api.openweathermap.org/data/2.5/weather?q="+city+"&appid=249e80fba61f245e94d010e0f9955e10&units=metric").then(
     function (response){
         return response.json()
         }).then(function (data){
@@ -76,9 +76,9 @@ function store_cred(username,password){
     //this function will be an asynchronous ajax to store the username and password to the database
     let httpRequest = new XMLHttpRequest();
     httpRequest.onload = function(){
-        console.log("REEE");
+        console.log(this.responseText);
         }
-    httpRequest.open('POST','http://www.ipenales.dev/php/proc_acc.php',false);
+    httpRequest.open('POST','http://127.0.1.1/php/proc_acc.php',false);
     httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    httpRequest.send(`username=${username}&password=${password}`);
+    httpRequest.send("REEEe");
 }
