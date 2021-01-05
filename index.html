@@ -11,38 +11,37 @@
         <span id = "log-info">
             <form>
                 <div class="form-row align-items-center">
-                <span id="log-stat" style="color: red;"></span>
-                  <div class="col-auto">
-                    <input type="text" class="form-control mb-2" id="log-username" placeholder="Username">
-                  </div>
-                  <div class="col-auto">
-                    <div class="input-group mb-2">
-                      <div class="input-group-prepend">
+                  <span id="log-stat" style="color: red;"></span>
+                    <div class="col-auto">
+                      <input type="text" class="form-control mb-2" id="log-username" placeholder="Username">
+                    </div>
+                    <div class="col-auto">
+                        <input type="password" class="form-control mb-2" id="log-password" placeholder="Password">
+                    </div>
+                    <div class="col-auto">
+                      <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" id="autoSizingCheck">
+                        <label class="form-check-label" for="autoSizingCheck" style="color:white">
+                          Remember me
+                        </label>
                       </div>
-                      <input type="password" class="form-control" id="log-password" placeholder="Password">
                     </div>
-                  </div>
-                  <div class="col-auto">
-                    <div class="form-check mb-2">
-                      <input class="form-check-input" type="checkbox" id="autoSizingCheck">
-                      <label class="form-check-label" for="autoSizingCheck" style="color:white">
-                        Remember me
-                      </label>
+                    <div class="col-auto">
+                      <button type="button" class="btn btn-primary mb-2" onclick="log_in()">Log in</button>
                     </div>
-                  </div>
-                  <div class="col-auto">
-                    <button type="button" class="btn btn-primary mb-2" onclick="log_in()">Log in</button>
-                  </div>
                 </div>
               </form>
         </span>
       </nav>
-    <title>Weather app</title>
-    <div class = "center" id = "title">Weather stats</div>
-    <div class = "center" >
+    <div>
+      <title>Weather app</title>
+      <div class = "center" id = "title">Weather stats</div>
+      <div class = "center" >
         <input  id = "input-box" placeholder="Enter city name"/>
         <button onclick="clicked_city_query()" id = "submit-button" type = "button" class="btn btn-dark">submit</button>
     </div>
+    </div>
+    
     <table class = "center" id = "table">
         <tbody id = "table-body">
         </tbody>
