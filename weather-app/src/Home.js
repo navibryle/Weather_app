@@ -1,8 +1,7 @@
 import { render } from '@testing-library/react';
 import React from 'react';
-import './home.css';
-import Table from './Table.js'
-
+import './Home.css';
+import TableQuery from './TableQuery'
 export default class Home extends React.Component{
     constructor(props){
         super(props)
@@ -11,32 +10,13 @@ export default class Home extends React.Component{
         return (
             <div>
                 <ToolBar />
-                <div className = "center">
-                    <CitySearchForm/>
-                </div>
-                <Table className = "center" id = "table"/>
+                <TableQuery/>
                 <ContactInfo/>
             </div>
         )
     }
 }
 
-class LogInBtn extends React.Component{
-    construcor(props){
-        super(props)
-    }
-    onClick(){
-
-    }
-    render(){
-        return (
-            <div className="col-auto">
-                <button type="button" className="btn btn-primary mb-2" onclick="log_in()">Log in</button>
-            </div>
-        )
-    }
-    
-}
 class ToolBar extends React.Component{
     constructor(props){
         super(props)
@@ -44,6 +24,7 @@ class ToolBar extends React.Component{
 
         this.handleChangeUname = this.handleChangeUname.bind(this)
         this.handleChangePass = this.handleChangePass.bind(this)
+        this.logIn = this.logIn.bind(this)
     }
     handleChangeUname(event){
         this.setState({uName:event.target.value})
@@ -52,7 +33,8 @@ class ToolBar extends React.Component{
         this.setState({pass:event.target.value})
     }
     logIn(event){
-        
+        //cant do this yet since i would need to do a http post request
+        alert(this.state.uName,this.state.pass)
     }
     render(){
         return (
@@ -73,42 +55,6 @@ class ToolBar extends React.Component{
         )
     }
 }
-class CitySearchForm extends React.Component{
-    constructor(props){
-        super(props)
-    }
-    render(){
-        return (
-            <div>
-                <div className = "center" id = "title">
-                    Weather app
-                </div>
-                <div className = "center" >
-                    <input  id = "input-box" placeholder="Enter city name"/>
-                    <button onclick="clicked_city_query()" id = "submit-button" type = "button" className="btn btn-dark">submit</button>
-                </div>
-            </div>
-        )
-    }
-
-}
-
-function UnameInp(props){
-    return (
-        <div className="col-auto">
-            <input type="text" className="form-control mb-2" id="log-username" value={props.value} onChange={props.handleChange} placeholder="Username"/>
-        </div>
-    )
-}
-
-function PassInp(props){
-    return (
-        <div className="col-auto">
-            <input type="password" className="form-control mb-2" id="log-password" value={props.value} onChange={props.handleChange} placeholder="Password"/>
-        </div>
-    )
-}
-
 //============ small components===========
 
 function RemeberMeBox(props){
@@ -130,6 +76,28 @@ function ContactInfo(props){
             ipenales@ualberta<br/>
             https://github.com/navibryle
         </p>
+    )
+}
+function LogInBtn(props){
+    return (
+        <div className="col-auto">
+            <button type="button" className="btn btn-primary mb-2" onClick={props.submit}>Log in</button>
+        </div>
+    )
+}
+function UnameInp(props){
+    return (
+        <div className="col-auto">
+            <input type="text" className="form-control mb-2" id="log-username" value={props.value} onChange={props.handleChange} placeholder="Username"/>
+        </div>
+    )
+}
+
+function PassInp(props){
+    return (
+        <div className="col-auto">
+            <input type="password" className="form-control mb-2" id="log-password" value={props.value} onChange={props.handleChange} placeholder="Password"/>
+        </div>
     )
 }
 //========== small components end===========
