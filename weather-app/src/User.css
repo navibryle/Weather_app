@@ -1,0 +1,83 @@
+#dataset{
+    width: 20vw;
+    height: auto; 
+    overflow-y: scroll;
+    max-height: 30vh;
+    float:right;
+}
+#add-dataset{
+    position: relative;
+    top: 10vh;
+}
+#data-wrap{
+    width:45vw;
+    position: relative;
+    left:55vw;
+}
+#add-dataset{
+    position: relative;
+    top:10px;
+    left:10%;
+    width:30vw;
+}
+table{
+    margin-left:auto; 
+    margin-right:auto;
+    border-collapse: collapse;
+    position: relative;
+    margin-top: 2vh;
+}
+td,th{
+    border: 1px solid;
+    padding:10px;
+}
+tr:nth-child(even){
+    background-color: #dddddd;
+}
+tr:hover:not(#header){
+    background-color: black;
+    color: white;
+}
+.center{
+    text-align: center;
+}
+#input-box{
+    width:20vw;
+    height: 40px;
+    font-size: x-large;
+    margin-top: 30px;
+    text-align: center;
+    position: relative;
+    top:4px;
+}
+.bold{
+    font-weight: bold;
+}
+
+.button-opt-options{
+    position: relative; 
+    left:55vw; 
+    margin:1%; 
+    width:20vw;
+}
+
+.btn-opt-child-margin{
+    margin:20px;
+}
+.user-city-inp-wrapper{
+    position:relative; 
+    left:1vw; 
+    width:20vw;
+}
+.user-table{
+    position: relative; 
+    top:20px;
+}
+.white{
+    color: white;
+}
+.save-btn{
+    margin:5%; 
+    position:relative; 
+    left:45vw;
+}

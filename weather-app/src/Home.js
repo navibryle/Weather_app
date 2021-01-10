@@ -2,15 +2,22 @@ import { render } from '@testing-library/react';
 import React from 'react';
 import './Home.css';
 import TableQuery from './TableQuery'
-export default class Home extends React.Component{
+import {BACKEND_URL,SUCCESSFUL_LOGIN} from './constants'
+import {
+    withRouter,
+    Link
+  } from "react-router-dom"
+
+class Home extends React.Component{
     constructor(props){
         super(props)
     }
     render(){
+        const {history} = this.props
         return (
             <div>
-                <ToolBar />
-                <TableQuery/>
+                <ToolBar history = {history}/>
+                <TableQuery headerId = {"header"} tableId = {"table-body"} />
                 <ContactInfo/>
             </div>
         )
@@ -20,8 +27,7 @@ export default class Home extends React.Component{
 class ToolBar extends React.Component{
     constructor(props){
         super(props)
-        this.state = {uName:'',pass:''}
-
+        this.state = {uName:'',pass:'',logedIn:false,path:"/"}
         this.handleChangeUname = this.handleChangeUname.bind(this)
         this.handleChangePass = this.handleChangePass.bind(this)
         this.logIn = this.logIn.bind(this)
@@ -33,13 +39,25 @@ class ToolBar extends React.Component{
         this.setState({pass:event.target.value})
     }
     logIn(event){
-        //cant do this yet since i would need to do a http post request
-        alert(this.state.uName,this.state.pass)
+        const req = new XMLHttpRequest()
+        const LOGINURL = `${BACKEND_URL}/LogIn?username=${this.state.uName}&password=${this.state.pass}`
+        req.open("GET",LOGINURL,false) // Synchronous request
+        req.setRequestHeader("Content-Type","text/plain")
+        req.send(null);
+        const res = req.responseText
+        if (res === SUCCESSFUL_LOGIN){
+            this.props.history.push({pathname:"/userPage",state:{uname:this.state.uName}})
+        }else{
+            console.log("UNSUCCESSFUL LOG IN")
+            this.state.path = "/"
+        }
     }
     render(){
         return (
             <nav className = "navbar navbar-dark bg-dark">
-                <a href = "signup.html">sign up</a>
+                <Link to="/signUp">
+                    sign up
+                </Link>
                 <span id = "log-info">
                     <form>
                         <div className="form-row align-items-center">
@@ -81,6 +99,7 @@ function ContactInfo(props){
 function LogInBtn(props){
     return (
         <div className="col-auto">
+            
             <button type="button" className="btn btn-primary mb-2" onClick={props.submit}>Log in</button>
         </div>
     )
@@ -101,3 +120,5 @@ function PassInp(props){
     )
 }
 //========== small components end===========
+
+export default withRouter(Home)
