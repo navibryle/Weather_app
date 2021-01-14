@@ -12,6 +12,9 @@ class Home extends React.Component{
     constructor(props){
         super(props)
     }
+    componentDidMount(){
+        document.title = "weather-app"
+    }
     render(){
         const {history} = this.props
         return (
@@ -27,7 +30,7 @@ class Home extends React.Component{
 class ToolBar extends React.Component{
     constructor(props){
         super(props)
-        this.state = {uName:'',pass:'',logedIn:false,path:"/"}
+        this.state = {uName:'',pass:'',logedIn:false,path:"/",loginError:""}
         this.handleChangeUname = this.handleChangeUname.bind(this)
         this.handleChangePass = this.handleChangePass.bind(this)
         this.logIn = this.logIn.bind(this)
@@ -47,9 +50,9 @@ class ToolBar extends React.Component{
         const res = req.responseText
         if (res === SUCCESSFUL_LOGIN){
             this.props.history.push({pathname:"/userPage",state:{uname:this.state.uName}})
+            
         }else{
-            console.log("UNSUCCESSFUL LOG IN")
-            this.state.path = "/"
+            this.setState({loginError:"account does not exist"})
         }
     }
     render(){
@@ -61,7 +64,7 @@ class ToolBar extends React.Component{
                 <span id = "log-info">
                     <form>
                         <div className="form-row align-items-center">
-                            <span id="log-stat"></span>
+                            <span id="log-stat">{this.state.loginError}</span>
                             <UnameInp handleChange = {this.handleChangeUname} value = {this.state.uName}/>
                             <PassInp handleChange = {this.handleChangePass} value = {this.state.pass}/>
                             <RemeberMeBox/>

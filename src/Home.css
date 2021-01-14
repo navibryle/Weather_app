@@ -54,3 +54,10 @@
   .white{
     color:white;
   }
+  .city-error{
+    color: red;
+    margin-top: 1%;
+  }
+  .submit-button{
+    margin-left:1%;
+  }

@@ -1,10 +1,11 @@
 import React from 'react'
 import './User.css'
-import {ADD_TABLES,SHOW_BUTTONS,BACKEND_URL,STORED_DATASET,SUCCESSFULY_SAVED} from './constants'
+import {ADD_TABLES,SHOW_BUTTONS,BACKEND_URL,STORED_DATASET,SUCCESSFULY_SAVED,SUCCESSFULY_DELETED} from './constants'
 import {v4 as uuidv4} from 'uuid'
 import {TableHeader,TableRow} from './TableComp'
 import CsrfToken from './Csrftoken'
 import cookie from 'react-cookies'
+import { Link } from 'react-router-dom'
 export default class User extends React.Component{
     //on mount this component needs to query the database for all the datasets in the user data and create a list of buttons
     constructor(props){
@@ -14,16 +15,28 @@ export default class User extends React.Component{
         this.addDataSet = this.addDataSet.bind(this)
         this.dataSetListner = this.dataSetListner.bind(this)
         this.getDatasets = this.getDatasets.bind(this)
-        this.getDatasets()
     }
     dataSetListner(event){
         this.setState({newDataset:event.target.value})
     }
     componentDidMount(){
         this.getDatasets()
+        this.checkForCookies()
+    }
+    checkForCookies(){
+        
+        var cookieEnabled = (navigator.cookieEnabled) ? true : false;
+
+        if (typeof navigator.cookieEnabled == "undefined" && !cookieEnabled){ 
+            document.cookie="testcookie";
+            cookieEnabled = (document.cookie.indexOf("testcookie") != -1) ? true : false;
+        }
+        console.log(cookieEnabled)
+        if (!cookieEnabled){
+            alert("cookie not enabled")
+        }
     }
     addDataSet(event){
-        console.log("ADD DATA SET")
         const req = new XMLHttpRequest()
         const url = `${BACKEND_URL}/storeDataset?username=${this.state.uName}&dataset=${this.state.newDataset}`
         req.open("GET",url,false)
@@ -32,11 +45,9 @@ export default class User extends React.Component{
         const response = req.responseText
         if (response === STORED_DATASET){
             //DATASET successfuly stored
-            console.log("DATASET ADDED")
             var newDataSetList = [...this.state.dataset]
-            newDataSetList.push(this.state.newDataset)
+            newDataSetList.push({dName:this.state.newDataset,id:uuidv4()})
             this.setState({dataset:newDataSetList,newDataset:''})
-            this.getDatasets()
         }
     }
    
@@ -91,6 +102,8 @@ class UserData extends React.Component{
         this.newRowListener = this.newRowListener.bind(this)
         this.clearNewRowsCallback = this.clearNewRowsCallback.bind(this)
         this.saveToDb = this.saveToDb.bind(this)
+        this.deleteTables = this.deleteTables.bind(this)
+        this.deleteCallback = this.deleteCallback.bind(this)
     }
     showTables(){
         //-------this will get tables from db-----
@@ -98,23 +111,27 @@ class UserData extends React.Component{
         const url = `${BACKEND_URL}/getTable?username=${this.props.uName}&dataset=${this.state.currentDname}`
         req.open('GET',url,false)
         req.setRequestHeader('Content-Type','application/json')
+        req.send(null)
         //--------------------------------------------
         this.setState({cities:this.parseData(req.response)})//this will cause the dom to update with the new tables
     }
     parseData(Data){
         //this will turn the json into a javascript object. This will be subjective to what the server produces
-        var output = {}
-        for (var key in Data){
-            output.name = key
-            output.temp = Data.key.temp
-            output.feels_like = Data.key.feels_like
-            output.temp_min = Data.key.temp_min
-            output.temp_max = Data.key.temp_max
-            output.pressure = Data.key.pressure
-            output.humidity = Data.key.humidity
-            output.visibility = Data.key.visibility
-            output.iconUrl = Data.key.iconUrl
-            output.description = Data.key.description
+        var output = []
+        var parsedData = JSON.parse(Data)
+        for (var key in JSON.parse(Data)){
+            var buffer = {}
+            buffer.name = key
+            buffer.temp = parsedData[key].temp
+            buffer.feels_like = parsedData[key].feels_like
+            buffer.temp_min = parsedData[key].temp_min
+            buffer.temp_max = parsedData[key].temp_max
+            buffer.pressure = parsedData[key].pressure
+            buffer.humidity = parsedData[key].humidity
+            buffer.visibility = parsedData[key].visibility
+            buffer.iconUrl = parsedData[key].iconUrl
+            buffer.description = parsedData[key].description
+            output.push(buffer)
         }
         return output
     }
@@ -156,7 +173,7 @@ class UserData extends React.Component{
                     arr.push(weatherAtt)
                     instance.setState({newRows:arr})
                 }else{
-                    alert("City is not in the OpenWeather API. Error log: ")
+                    alert("City is not in the OpenWeather API. ")
                 }
         }).catch(function (err){
             alert("City is not in the OpenWeather API. Error log: "+err)
@@ -169,7 +186,7 @@ class UserData extends React.Component{
                 this.setState({
                     buttonDisp:SHOW_BUTTONS,
                     currentDname:this.props.dataset[i].dName
-                })
+                },() => this.showTables())
             }
         }
     }
@@ -184,42 +201,62 @@ class UserData extends React.Component{
         )
     }
     clearNewRowsCallback(){
-        if (this.req.responseText === SUCCESSFULY_SAVED){
-            console.log("saved")
-        }else{
-            console.log("not saved")
+        if (this.req.responseText != SUCCESSFULY_SAVED){
+            alert("could not save city!")
         }
-        this.setState({newRows:[],buttonDisp:SHOW_BUTTONS})
+        this.setState({newRows:[],buttonDisp:SHOW_BUTTONS},() => this.showTables())
     }
     saveToDb(){
         const req = new XMLHttpRequest();
-        console.log( this.props)
         const url = `${BACKEND_URL}/saveCities?username=${this.props.uName}&dataset=${this.state.currentDname}`
+        console.log(url)
         req.open('POST',url,true)
         req.withCredentials = true
         req.setRequestHeader("X-CSRFTOKEN",cookie.load("csrftoken"))//set the token that django will recognize
         req.send(JSON.stringify(this.parseDataForDb(this.state.newRows)))
         this.req = req
         req.onload = this.clearNewRowsCallback
-    }   
+    }
+    deleteCallback(){
+        if (this.req.responseText !== SUCCESSFULY_DELETED){
+            alert(`could not delete cities in ${this.state.currentDname}`)
+        }
+        this.showTables()
+    }
+    deleteTables(){
+        const req = new XMLHttpRequest();
+        const url = `${BACKEND_URL}/deleteCities?username=${this.props.uName}&dataset=${this.state.currentDname}`
+        req.open('POST',url,true)
+        req.withCredentials = true
+        req.setRequestHeader("X-CSRFTOKEN",cookie.load("csrftoken"))//set the token that django will recognize
+        this.req = req
+        req.send(null)
+        req.onload = this.deleteCallback
+    }
     render(){
         return (
             <div>
-                <div id = "data-wrap" >
-                    <div  id = "dataset" className="list-group" >
+                <span id = "data-wrap" >
+                    <div  id = "dataset" className="list-group">
                         {this.createDatasetButtons()}
                     </div>
-                    <AddDataSet handleClick={this.props.addDataSet} handleChange = {this.props.dataSetListner} value = {this.props.newDataset}/>
-                </div>
-                <ButtonOption 
-                buttonDisp = {this.state.buttonDisp} 
-                dName = {this.state.dName} 
-                newRowVal= {this.state.newRowInp} 
-                handleChange={this.newRowListener} 
-                addTables={this.addTables} 
-                addTable={this.fetch_city}
-                
-                />
+                    <AddDataSet 
+                    handleClick={this.props.addDataSet} 
+                    dName = {this.state.currentDname} 
+                    handleChange = {this.props.dataSetListner} 
+                    value = {this.props.newDataset}/>
+                    <CsrfToken/>
+                    <ButtonOption 
+                    buttonDisp = {this.state.buttonDisp} 
+                    dName = {this.state.currentDname} 
+                    newRowVal= {this.state.newRowInp}
+                    deleteTables = {this.deleteTables}
+                    handleChange={this.newRowListener} 
+                    addTables={this.addTables} 
+                    addTable={this.fetch_city}
+                    showTables={this.showTables}
+                    /> 
+                </span>
                 <UserTable 
                 cities={this.state.cities} 
                 toAdd={this.state.newRows} 
@@ -231,8 +268,9 @@ class UserData extends React.Component{
     }
 }
 function DatasetButton(props){
+    //prev class : list-group-item list-group-item-action
     return (
-        <button id = {props.id} onClick = {props.showButtons} type="button" class="list-group-item list-group-item-action">{props.dName}</button>
+        <button id = {props.id} onClick = {props.showButtons} type="button" className=" list-group-item list-group-item-action">{props.dName}</button>
     )
 }
 class UserTable extends React.Component{
@@ -264,6 +302,7 @@ class UserTable extends React.Component{
                             })}
                         </tbody>
                     </table>
+                    <CsrfToken/>
                     <button onClick = {this.props.saveTables} id = "save-button" type = "button" className="btn btn-dark save-btn">
                         save
                     </button>
@@ -286,22 +325,22 @@ class ButtonOption extends React.Component{
         if (this.props.buttonDisp === SHOW_BUTTONS){
             button =  (
                 <div >
-                        <button  onClick = {this.props.showTables}  className="btn btn-dark btn-opt-child-margin">Show {this.props.dName} table</button>
-                        <button  onClick = {this.props.addTables}  className="btn btn-dark btn-opt-child-margin">Add</button>
+                        <button  onClick = {this.props.addTables}  className="btn btn-dark btn-opt-child-margin">Add city to {this.props.dName}</button>
+                        <button onClick = {this.props.deleteTables} className="btn btn-dark btn-opt-child-margin">Delete ALL tables of {this.props.dName}</button>
                 </div>
             )
         }else if (this.props.buttonDisp === ADD_TABLES){
          button = (
                 <div className = "center user-city-inp-wrapper" >
-                    <CsrfToken/>
-                    <input  id = "input-box-user"  placeholder="Enter city name" value={this.props.newRowVal} onChange={this.props.handleChange}/>
-                    <button onClick={this.props.addTable} id = "submit-button" type = "button" className="btn btn-dark">submit</button>
+                    
+                    <input  id = "input-box-user"  placeholder="Enter city to add" value={this.props.newRowVal} onChange={this.props.handleChange}/>
+                    <button onClick={this.props.addTable}  type = "button" className="submit-button-user btn btn-dark">submit</button>
                 </div>
          )
         }
         return (
             <div id = "button-opt" className = "center button-opt-options">
-                
+                <CsrfToken/>
                 {button}
             </div>
         )
@@ -311,19 +350,24 @@ class ButtonOption extends React.Component{
 function Nav(props){
     return (
         <nav className="navbar navbar-dark bg-dark">
-            <a href = "index.html">Home</a>
             <span  className = "white" id="user-disp" value = {props.error}></span>
-            <button  className="btn btn-primary mb-2 white" onClick = {props.handleClick} id="user-disp">sign out</button>
+            <Link to = "/">
+                <button  className="btn btn-primary mb-2 white" id="user-disp">sign out</button>
+            </Link>
+            
         </nav>
     )
 }
 function AddDataSet(props){
     return(
-        <span id = "add-dataset" >
-            <div className = "bold">Add dataset</div>
-            <input type="text"  id = "data-name-inp" value={props.value} onChange={props.handleChange}/>
-            <button onClick={props.handleClick} type="button" class="btn btn-primary">Submit</button>
-        </span>
+        <div id = "add-dataset" className = "center">
+            <div className = "bold margin center">Add dataset</div>
+            <div>
+                <CsrfToken/>
+                <input type="text"  id = "data-name-inp" value={props.value} onChange={props.handleChange}/>
+            </div>
+            <div className="center"><button onClick={props.handleClick} type="button" className="btn btn-primary btn-add-dataset">Submit</button></div>
+        </div>
     )
 }
 

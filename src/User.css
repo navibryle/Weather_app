@@ -1,24 +1,23 @@
 #dataset{
-    width: 20vw;
+    width: 25vw;
     height: auto; 
     overflow-y: scroll;
     max-height: 30vh;
-    float:right;
+    margin-left: 1%;
+    margin-top: 1%;
+    display: inline-block;
 }
-#add-dataset{
-    position: relative;
-    top: 10vh;
+.margin{
+    margin:2%
 }
 #data-wrap{
-    width:45vw;
-    position: relative;
-    left:55vw;
+    margin-top:10%;
 }
 #add-dataset{
-    position: relative;
-    top:10px;
-    left:10%;
-    width:30vw;
+    
+    
+    margin-left: 5%;
+    display: inline-block;
 }
 table{
     margin-left:auto; 
@@ -55,10 +54,8 @@ tr:hover:not(#header){
 }
 
 .button-opt-options{
-    position: relative; 
-    left:55vw; 
-    margin:1%; 
-    width:20vw;
+    display: inline-block;
+    margin:1%;
 }
 
 .btn-opt-child-margin{
@@ -68,6 +65,11 @@ tr:hover:not(#header){
     position:relative; 
     left:1vw; 
     width:20vw;
+}
+.btn-add-dataset{
+   margin-left:auto;
+   margin-right:auto;
+   margin-top: 2%;
 }
 .user-table{
     position: relative; 
@@ -81,3 +83,7 @@ tr:hover:not(#header){
     position:relative; 
     left:45vw;
 }
+.submit-button-user{
+    margin-top:2%;
+    margin-left:2%;
+  }
