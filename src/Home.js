@@ -7,7 +7,7 @@ import {
     withRouter,
     Link
   } from "react-router-dom"
-
+import cookie from 'react-cookies'
 class Home extends React.Component{
     constructor(props){
         super(props)

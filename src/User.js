@@ -31,7 +31,6 @@ export default class User extends React.Component{
             document.cookie="testcookie";
             cookieEnabled = (document.cookie.indexOf("testcookie") != -1) ? true : false;
         }
-        console.log(cookieEnabled)
         if (!cookieEnabled){
             alert("cookie not enabled")
         }
@@ -209,10 +208,9 @@ class UserData extends React.Component{
     saveToDb(){
         const req = new XMLHttpRequest();
         const url = `${BACKEND_URL}/saveCities?username=${this.props.uName}&dataset=${this.state.currentDname}`
-        console.log(url)
         req.open('POST',url,true)
         req.withCredentials = true
-        req.setRequestHeader("X-CSRFTOKEN",cookie.load("csrftoken"))//set the token that django will recognize
+        req.setRequestHeader("X-CSRFTOKEN",cookie.load("csrftoken"))    //set the token that django will recognize
         req.send(JSON.stringify(this.parseDataForDb(this.state.newRows)))
         this.req = req
         req.onload = this.clearNewRowsCallback
@@ -304,6 +302,7 @@ class UserTable extends React.Component{
                     </table>
                     <CsrfToken/>
                     <button onClick = {this.props.saveTables} id = "save-button" type = "button" className="btn btn-dark save-btn">
+                    <CsrfToken/>
                         save
                     </button>
                 </div>
