@@ -1,5 +1,5 @@
 export const SUCCESSFUL_LOGIN = "11"
-export const BACKEND_URL = "http://localhost:8000/api/weatherApp"
+export const BACKEND_URL = "https://ipenales.com:8000/api/weatherApp"
 export const ACCOUNT_CREATED = "22"
 export const ACCOUNT_EXSIST = "33"
 export const SHOW_TABLES = "44"
